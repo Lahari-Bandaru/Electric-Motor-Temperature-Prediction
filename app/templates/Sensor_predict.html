@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sensor Prediction</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: url('https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.65);
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 650px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 36px;
+            padding: 40px 45px;
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: white;
+            font-size: 28px;
+            font-weight: 500;
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 18px;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateX(-5px);
+        }
+
+        h2 {
+            color: white;
+            font-size: 28px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            flex: 1;
+        }
+
+        .sensor-badge {
+            background: rgba(32, 191, 85, 0.35);
+            backdrop-filter: blur(5px);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-size: 15px;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.8; background: rgba(32, 191, 85, 0.5); }
+            100% { opacity: 1; }
+        }
+
+        .live-indicator {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 30px;
+            padding: 16px 22px;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .dot {
+            width: 14px;
+            height: 14px;
+            background: #20bf55;
+            border-radius: 50%;
+            box-shadow: 0 0 20px #20bf55;
+            animation: pulseDot 1.5s infinite;
+        }
+
+        @keyframes pulseDot {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); background: #4aff9e; }
+            100% { transform: scale(1); }
+        }
+
+        .live-indicator span {
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: white;
+            font-weight: 500;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        label i {
+            margin-right: 8px;
+            font-size: 16px;
+            filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.5));
+        }
+
+        input {
+            width: 100%;
+            padding: 16px 20px;
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(5px);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 18px;
+            font-size: 16px;
+            color: white;
+            transition: all 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: rgba(32, 191, 85, 0.6);
+            background: rgba(0, 0, 0, 0.6);
+            box-shadow: 0 0 20px rgba(32, 191, 85, 0.3);
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.35);
+            font-size: 15px;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 18px;
+            background: rgba(32, 191, 85, 0.4);
+            backdrop-filter: blur(5px);
+            color: white;
+            border: none;
+            border-radius: 24px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 12px 22px rgba(0, 0, 0, 0.4);
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            background: rgba(32, 191, 85, 0.7);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.5);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .result {
+            margin-top: 30px;
+            padding: 25px;
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .result p {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 10px;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .result h3 {
+            color: white;
+            font-size: 42px;
+            font-weight: 700;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="/" class="back-btn">←</a>
+            <h2>Sensor Input</h2>
+            <span class="sensor-badge">LIVE</span>
+        </div>
+
+        <div class="live-indicator">
+            <span class="dot"></span>
+            <span>📡 8 sensors active · real-time stream</span>
+        </div>
+
+        <form action="/sensor_predict" method="POST">
+            <div class="row">
+                <div class="form-group">
+                    <label><i>🌡️</i> Ambient (°C)</label>
+                    <input type="number" step="any" name="ambient" placeholder="23.2" required>
+                </div>
+                <div class="form-group">
+                    <label><i>❄️</i> Coolant (°C)</label>
+                    <input type="number" step="any" name="coolant" placeholder="21.8" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label><i>⚡</i> Direct Axis Voltage (U_d)</label>
+                    <input type="number" step="any" name="u_d" placeholder="3.45" required>
+                </div>
+                <div class="form-group">
+                    <label><i>⚡</i> Quadrature Axis Voltage (U_q)</label>
+                    <input type="number" step="any" name="u_q" placeholder="2.93" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label><i>🌀</i> Motor Speed (rpm)</label>
+                <input type="number" step="any" name="motor_speed" placeholder="1475" required>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label><i>📊</i> Direct Axis Current (I_d)</label>
+                    <input type="number" step="any" name="i_d" placeholder="0.22" required>
+                </div>
+                <div class="form-group">
+                    <label><i>📊</i> Quadrature Axis Current (I_q)</label>
+                    <input type="number" step="any" name="i_q" placeholder="1.41" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label><i>🔧</i> Torque (Nm)</label>
+                <input type="number" step="any" name="torque" placeholder="8.15" required>
+            </div>
+
+            <button type="submit" class="btn">📡 Predict from Sensors</button>
+        </form>
+
+        <div class="result">
+            <p>AI Temperature Estimate</p>
+            <h3>{{ prediction_text if prediction_text else '— °C' }}</h3>
+        </div>
+    </div>
+</body>
+</html>
