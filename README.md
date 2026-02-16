@@ -1,15 +1,22 @@
 # Electric Motor Temperature Prediction using Machine Learning
-#📌 Project Overview
+# 📌 Overview
 
-This project focuses on predicting the Permanent Magnet (PM) temperature of an electric motor using machine learning techniques. The system takes real-time or manual sensor inputs such as voltage, current, ambient temperature, motor speed, and other electrical parameters to predict the PM temperature.
+This project predicts the Permanent Magnet (PM) temperature of an electric motor using machine learning techniques.
 
-The goal of this project is to:
-Improve thermal monitoring of electric motors
-Prevent overheating and system failure
-Demonstrate end-to-end ML deployment (Training → Model Saving → Web App Deployment)
-This project was developed as part of my Final Internship Project.
+The model takes electrical and environmental parameters as input and estimates the PM temperature to help prevent overheating and improve motor performance.
 
-#📊 Features Used
+This project demonstrates an end-to-end ML pipeline including data preprocessing, model training, evaluation, and Flask web deployment.
+
+# 🚀 Features
+
+Data preprocessing and normalization
+Feature scaling using MinMaxScaler
+Regression model training
+Model evaluation using R², MAE, and MSE
+Flask web interface for prediction
+Manual and Sensor-based input pages
+
+# 📊 Input Features 
 
 The model was trained using the following 8 input features:
 Ambient Temperature
@@ -25,7 +32,7 @@ Torque
 Permanent Magnet Temperature (PM Temperature)
 Note: The input values are normalized according to the dataset. Units are not considered in prediction.
 
-#⚙️ Technologies Used
+# ⚙️ Technologies Used
 🐍 Programming Language
 Python 3.x
 
@@ -45,7 +52,7 @@ Jinja2 Templates
 Jupyter Notebook
 VS Code
 
-#🌐 Web Application Features
+# 🌐 Web Application Features
 The Flask web application includes:
 
 📝 Manual Prediction Page
@@ -57,7 +64,7 @@ Designed for real-time sensor input simulation.
 🔮 Predict Button
 Displays the predicted PM Temperature instantly.
 
-#🚀 Project Workflow
+# 🚀 Project Workflow
 Data Collection
 Data Preprocessing & Normalization
 Model Training
