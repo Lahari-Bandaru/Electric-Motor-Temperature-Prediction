@@ -64,5 +64,5 @@ The Flask web application includes:
 * Model Training
 * Model Evaluation
 * Model Saving (pickle)
-*Flask App Development
-*Deployment Interface
+* Flask App Development
+* Deployment Interface
