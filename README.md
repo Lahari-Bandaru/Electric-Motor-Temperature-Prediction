@@ -1,4 +1,5 @@
 # Electric Motor Temperature Prediction using Machine Learning
+Project demo Link ---  https://drive.google.com/file/d/1HYHiiz81PH2ALLWwPrhcfL1JOh1b6XT7/view?usp=sharing
 # 📌 Overview
 This project predicts the Permanent Magnet (PM) temperature of an electric motor using machine learning techniques. The model takes electrical and environmental parameters as input and estimates the PM temperature to help prevent overheating and improve motor performance.
 This project demonstrates an end-to-end ML pipeline including data preprocessing, model training, evaluation, and Flask web deployment.
